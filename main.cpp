@@ -24,6 +24,12 @@ public:
         queue.pop();
     }
 
+    T front()
+    {
+        std::lock_guard<std::mutex> lock(mutex);
+        return queue.front();   
+    }
+
     size_t size()
     {
         std::lock_guard<std::mutex> lock(mutex);
@@ -106,7 +112,7 @@ void producer(ThreadSafeQueue<int>& threadSafeQueue)
     for (int i = 0; i < 10; ++i)
     {
         std::lock_guard<std::mutex> lock(mutex);
-        queue.push(i);
+        threadSafeQueue.push(i);
         std::cout << "Producer: " << i << std::endl;
         threadSafeQueue.push(i);
     }
@@ -116,12 +122,12 @@ void consumer(ThreadSafeQueue<int>& threadSafeQueue)
 {
     while (true)
     {
-        std::unique_lock<std::mutex> lock(mutex); // Add argument list for std::unique_lock
-        if (queue.empty()) {
+        std::unique_lock<std::mutex> lock(mutex); 
+        if (threadSafeQueue.empty()) {
             break;
         }
-        int value = queue.front();
-        queue.pop();
+        int value = threadSafeQueue.front();
+        threadSafeQueue.pop();
         std::cout << "Consumer: " << value << std::endl;
     }
 }
