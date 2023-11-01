@@ -114,7 +114,6 @@ void producer(ThreadSafeQueue<int>& threadSafeQueue)
         std::lock_guard<std::mutex> lock(mutex);
         threadSafeQueue.push(i);
         std::cout << "Producer: " << i << std::endl;
-        threadSafeQueue.push(i);
     }
 }
 
@@ -134,7 +133,7 @@ void consumer(ThreadSafeQueue<int>& threadSafeQueue)
 
 int main() {
     ThreadSafeQueue<int> threadSafeQueue;
-    ThreadPool threadPool(2);
+    ThreadPool threadPool(10);
 
     threadPool.enqueue(producer, std::ref(threadSafeQueue));
     threadPool.enqueue(consumer, std::ref(threadSafeQueue));
