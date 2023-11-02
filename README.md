@@ -48,5 +48,5 @@ example@user:~/radar_thread_pool$ make start
 example@user:~/$ git clone https://github.com/AlekseiYuzhanin/radar_thread_pool
 example@user:~/$ cd radar_thread_pool
 example@user:~/radar_thread_pool$ docker build -t <название_проекта> .
-example@user:~/radar_thread_pool$ docker run <название_проекта>ю
+example@user:~/radar_thread_pool$ docker run <название_проекта>.
 ```
